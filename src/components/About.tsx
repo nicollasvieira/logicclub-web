@@ -1,50 +1,31 @@
 import React from 'react';
 import { ClipboardList, FileText, Code, Rocket, LifeBuoy } from 'lucide-react';
+import { Reveal } from './Reveal';
 
 const About = () => {
   const steps = [
     {
-      icon: (
-        <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white shadow-sm">
-          <ClipboardList size={32} className="text-primary" />
-        </span>
-      ),
+      icon: <ClipboardList size={28} className="text-primary" />,
       title: 'Briefing',
       description: 'Entendemos sua necessidade, objetivos e ideias para criar uma solução sob medida.'
     },
     {
-      icon: (
-        <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white shadow-sm">
-          <FileText size={32} className="text-primary" />
-        </span>
-      ),
+      icon: <FileText size={28} className="text-primary" />,
       title: 'Proposta',
       description: 'Enviamos uma proposta detalhada, com prazos, valores e escopo do projeto.'
     },
     {
-      icon: (
-        <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white shadow-sm">
-          <Code size={32} className="text-primary" />
-        </span>
-      ),
+      icon: <Code size={28} className="text-primary" />,
       title: 'Desenvolvimento',
       description: 'Desenvolvimento ágil, com acompanhamento e feedbacks constantes.'
     },
     {
-      icon: (
-        <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white shadow-sm">
-          <Rocket size={32} className="text-primary" />
-        </span>
-      ),
+      icon: <Rocket size={28} className="text-primary" />,
       title: 'Entrega',
       description: 'Publicação, testes finais e entrega do projeto pronto para uso.'
     },
     {
-      icon: (
-        <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white shadow-sm">
-          <LifeBuoy size={32} className="text-primary" />
-        </span>
-      ),
+      icon: <LifeBuoy size={28} className="text-primary" />,
       title: 'Suporte',
       description: 'Suporte pós-entrega para garantir o funcionamento e evolução da solução.'
     }
@@ -68,35 +49,36 @@ const About = () => {
           </p>
         </div>
         <div className="w-full flex justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-12 items-stretch justify-center">
-            {steps.map((step, idx) => (
-              <React.Fragment key={idx}>
-                <div
-                  className={
-                    `group relative flex flex-col items-center justify-center text-center max-w-[260px] min-h-[220px] mx-auto bg-white rounded-2xl shadow-xl px-6 py-10 transition-all duration-300 animate-fade-in-up` +
-                    ' hover:-translate-y-1 hover:shadow-2xl'
-                  }
-                  style={{ animationDelay: `${idx * 120}ms` }}
-                >
-                  {/* Badge de etapa minimalista */}
-                  <span className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gray-100 text-gray-500 text-xs font-semibold px-2 py-0.5 rounded-full z-20 whitespace-nowrap">
-                    {idx + 1}
-                  </span>
-                  <div className="mb-6">{step.icon}</div>
-                  <h3 className="text-base font-semibold text-gray-900 mb-2">{step.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-2 max-w-[90%] mx-auto">{step.description}</p>
-                </div>
-                {/* Seta SVG curva, fina e translúcida entre os cards no desktop */}
-                {idx < steps.length - 1 && (
-                  <span className="hidden xl:flex items-center justify-center mx-2">
-                    <svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M6 12 Q24 24 42 12" stroke="#a3a3a3" strokeWidth="1.5" fill="none" opacity="0.3" />
-                      <path d="M42 12 L36 6 M42 12 L36 18" stroke="#a3a3a3" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
-                    </svg>
-                  </span>
-                )}
-              </React.Fragment>
-            ))}
+          <div className="relative w-full max-w-6xl flex flex-col items-center">
+            {/* Linha conectando os cards no desktop */}
+            <div className="hidden xl:block absolute top-1/2 left-0 right-0 h-0.5 bg-border z-0" style={{transform: 'translateY(-50%)'}} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-8 md:gap-10 xl:gap-6 w-full items-stretch justify-center">
+              {steps.map((step, idx) => (
+                <Reveal key={idx} delay={idx * 120} className="relative z-10">
+                  <div
+                    className={
+                      `group flex flex-col items-center justify-center text-center bg-card border border-border rounded-2xl shadow-sm px-6 py-10 min-h-[210px] max-w-[260px] mx-auto transition-all duration-300 hover:-translate-y-1 hover:shadow-md`
+                    }
+                  >
+                    {/* Badge de etapa minimalista */}
+                    <span className="absolute -top-5 left-1/2 -translate-x-1/2 bg-muted text-muted-foreground text-xs font-semibold px-2 py-0.5 rounded-full z-20 whitespace-nowrap shadow-sm border border-border">
+                      {idx + 1}
+                    </span>
+                    <div className="mb-5 flex items-center justify-center w-12 h-12 rounded-full bg-background border border-border shadow-sm">
+                      {step.icon}
+                    </div>
+                    <h3 className="text-base font-semibold text-foreground mb-2">{step.title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-2 max-w-[90%] mx-auto">{step.description}</p>
+                  </div>
+                  {/* Pontinho de conexão na linha (desktop) */}
+                  {idx < steps.length - 1 && (
+                    <span className="hidden xl:block absolute right-0 top-1/2 -translate-y-1/2 z-20">
+                      <span className="block w-3 h-3 rounded-full bg-border"></span>
+                    </span>
+                  )}
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </div>

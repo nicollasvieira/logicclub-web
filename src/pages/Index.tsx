@@ -7,7 +7,9 @@ import Features from '@/components/Features';
 import Projects from '@/components/Projects';
 import Testimonials from '@/components/Testimonials';
 import Footer from '@/components/Footer';
+import ContactForm from "../components/ContactForm";
 import { ChevronDown } from 'lucide-react';
+import { Reveal } from '../components/Reveal';
 
 const faqItems = [
   {
@@ -48,22 +50,24 @@ const Index = () => {
       <Header />
       <main>
         <div id="inicio">
-          <HeroSection />
+          <Reveal delay={0}><HeroSection /></Reveal>
         </div>
         <div id="sobre">
-          <About />
+          <Reveal delay={100}><About /></Reveal>
         </div>
         <div id="servicos">
-          <Services />
+          <Reveal delay={200}><Services /></Reveal>
         </div>
-        <Features />
+        <Reveal delay={300}><Features /></Reveal>
         <div id="projetos">
-          <Projects />
+          <Reveal delay={400}><Projects /></Reveal>
         </div>
         <div id="depoimentos">
-          <Testimonials />
+          <Reveal delay={500}><Testimonials /></Reveal>
+          <Reveal delay={600}><ContactForm /></Reveal>
         </div>
         {/* FAQ Section */}
+        <Reveal delay={700}>
         <section id="faq" className="w-full py-24 px-6 md:px-12 bg-background border-t border-border">
           <div className="max-w-3xl mx-auto space-y-12">
             <div className="text-center space-y-4">
@@ -105,6 +109,7 @@ const Index = () => {
             </div>
           </div>
         </section>
+        </Reveal>
       </main>
       <Footer />
     </div>

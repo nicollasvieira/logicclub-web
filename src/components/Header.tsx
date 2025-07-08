@@ -2,27 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import Logo from './Logo';
-import { Menu, X, CircleDot, LayoutDashboard, DollarSign, Sun, Moon, User, Briefcase, FolderOpen, MessageSquare } from 'lucide-react';
+import { Menu, X, CircleDot, LayoutDashboard, DollarSign, User, Briefcase, FolderOpen, MessageSquare } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { Switch } from '@/components/ui/switch';
 
 const Header = () => {
   const [activePage, setActivePage] = useState('inicio');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   
-  useEffect(() => {
-    // Apply the theme to the document when it changes
-    if (isDarkMode) {
-      document.documentElement.classList.remove('light-mode');
-      document.documentElement.classList.add('dark-mode');
-    } else {
-      document.documentElement.classList.remove('dark-mode');
-      document.documentElement.classList.add('light-mode');
-    }
-  }, [isDarkMode]);
-
   useEffect(() => {
     // Update active page based on scroll position
     const handleScroll = () => {
@@ -64,10 +51,6 @@ const Header = () => {
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
-  };
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
   };
 
   return (
@@ -193,36 +176,23 @@ const Header = () => {
                 <MessageSquare size={16} className="inline-block mr-1.5" /> Depoimentos
               </a>
               
-              {/* Add theme toggle for mobile */}
-              <div className="flex items-center justify-between px-3 py-2">
-                <span className="text-sm text-muted-foreground">Theme</span>
-                <div className="flex items-center gap-2">
-                  <Moon size={16} className={`${isDarkMode ? 'text-primary' : 'text-muted-foreground'}`} />
-                  <Switch 
-                    checked={!isDarkMode} 
-                    onCheckedChange={toggleTheme} 
-                    className="data-[state=checked]:bg-primary"
-                  />
-                  <Sun size={16} className={`${!isDarkMode ? 'text-primary' : 'text-muted-foreground'}`} />
-                </div>
-              </div>
             </div>
           </div>
         )}
         
         <div className="hidden md:flex items-center gap-4">
-          {/* Theme toggle for desktop */}
-          <div className="flex items-center gap-2 rounded-full px-3 py-2">
-            <Moon size={18} className={`${isDarkMode ? 'text-primary' : 'text-muted-foreground'}`} />
-            <Switch 
-              checked={!isDarkMode} 
-              onCheckedChange={toggleTheme} 
-              className="data-[state=checked]:bg-primary"
-            />
-            <Sun size={18} className={`${!isDarkMode ? 'text-primary' : 'text-muted-foreground'}`} />
-          </div>
           <div className="rounded-2xl">
-            <Button variant="ghost" className="text-muted-foreground hover:text-foreground hover:bg-muted">Contato</Button>
+            <Button
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-primary text-white font-semibold shadow transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:scale-105 text-base"
+              onClick={() => {
+                const el = document.getElementById('contato');
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            >
+              <MessageSquare size={18} className="-ml-1" /> Contato
+            </Button>
           </div>
         </div>
       </header>

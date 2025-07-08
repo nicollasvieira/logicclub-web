@@ -50,6 +50,11 @@ const HeroSection = () => {
             Falar com Especialista
           </Button>
         </div>
+        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#contato" className="bg-primary-600 hover:bg-primary-700 text-white font-semibold px-8 py-3 rounded-lg shadow transition-all duration-200 text-center" style={{scrollBehavior: 'smooth'}}>
+            Entrar em contato
+          </a>
+        </div>
         <div className="pt-6 text-sm text-muted-foreground">
           Atendimento ágil • Soluções personalizadas • Suporte contínuo
         </div>
