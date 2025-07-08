@@ -1,47 +1,46 @@
-
 import React from 'react';
 import { ExternalLink, Github, Calendar, Users, TrendingUp, Globe, Award } from 'lucide-react';
 
 const Projects = () => {
   const projects = [
     {
-      title: "PayFlow Enterprise",
-      description: "Plataforma completa de pagamentos para grandes corporações com processamento em tempo real, analytics avançados e sistema de gestão de riscos integrado.",
+      title: "Site Institucional - Agência X",
+      description: "Desenvolvimento de site institucional moderno, responsivo e otimizado para SEO, com painel de administração personalizado.",
       image: "bg-gradient-to-br from-blue-500 via-blue-600 to-purple-700",
       stats: {
-        transactions: "1M+",
-        users: "50K+",
-        uptime: "99.9%"
+        paginas: "10+",
+        tempo: "15 dias",
+        tecnologia: "Next.js"
       },
-      technologies: ["React", "Node.js", "MongoDB", "AWS"],
+      technologies: ["Next.js", "Tailwind", "Vercel"],
       year: "2024",
-      category: "Enterprise Solution"
+      category: "Website"
     },
     {
-      title: "FinTech Mobile App",
-      description: "Aplicativo móvel revolucionário para gestão financeira pessoal com integração bancária completa e IA para insights financeiros personalizados.",
+      title: "Bot Discord - Comunidade Y",
+      description: "Bot personalizado para Discord com comandos de moderação, integração com APIs externas e sistema de níveis para engajamento.",
       image: "bg-gradient-to-br from-green-500 via-emerald-600 to-teal-700",
       stats: {
-        downloads: "100K+",
-        rating: "4.8",
-        countries: "15+"
+        comandos: "20+",
+        membros: "5.000+",
+        uptime: "99.99%"
       },
-      technologies: ["React Native", "Python", "PostgreSQL", "GCP"],
-      year: "2023",
-      category: "Mobile App"
+      technologies: ["Node.js", "Discord.js", "MongoDB"],
+      year: "2024",
+      category: "Bot Discord"
     },
     {
-      title: "Blockchain Payment Gateway",
-      description: "Gateway de pagamentos inovador baseado em blockchain para transações internacionais com taxas ultra baixas e segurança máxima.",
+      title: "Scripts FiveM - Servidor Z",
+      description: "Desenvolvimento de scripts exclusivos para servidor FiveM, incluindo sistemas de economia, inventário e eventos automatizados.",
       image: "bg-gradient-to-br from-orange-500 via-red-500 to-pink-600",
       stats: {
-        volume: "$10M+",
-        countries: "25+",
-        partners: "50+"
+        scripts: "8 exclusivos",
+        jogadores: "200+",
+        suporte: "24/7"
       },
-      technologies: ["Solidity", "Web3", "Next.js", "Docker"],
-      year: "2023",
-      category: "Blockchain Solution"
+      technologies: ["Lua", "MySQL", "FiveM"],
+      year: "2024",
+      category: "FiveM"
     }
   ];
 
@@ -51,20 +50,19 @@ const Projects = () => {
       <div className="absolute inset-0 cosmic-grid opacity-10"></div>
       
       <div className="max-w-7xl mx-auto space-y-20 relative z-10">
-        <div className="text-center space-y-6 max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
+        <div className="text-center space-y-6 max-w-4xl mx-auto animate-fade-in-down">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium animate-pulse">
             <Award size={16} />
-            Nossos Projetos
+            Projetos Recentes
           </div>
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
-            Casos de sucesso que
+            Resultados que
             <span className="block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              transformaram negócios
+              geram valor real
             </span>
           </h2>
           <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
-            Conheça alguns dos projetos que desenvolvemos para revolucionar operações financeiras 
-            e gerar resultados extraordinários para nossos clientes.
+            Veja alguns dos projetos entregues para empresas, comunidades e servidores de jogos. Soluções sob medida, com tecnologia de ponta.
           </p>
         </div>
         
@@ -72,10 +70,10 @@ const Projects = () => {
           {projects.map((project, index) => (
             <div 
               key={index}
-              className="group h-full"
+              className={`group h-full hover:scale-[1.07] hover:shadow-2xl hover:shadow-primary/20 transition-transform duration-300 animate-fade-in-up delay-[${index * 120}ms]`}
             >
-              <div className="h-full rounded-2xl border border-border bg-card overflow-hidden hover:border-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5">
-                <div className={`h-56 ${project.image} relative overflow-hidden`}>
+              <div className="h-full rounded-2xl border border-border bg-card overflow-hidden hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10">
+                <div className={`h-56 ${project.image} relative overflow-hidden group-hover:scale-105 transition-transform duration-500`}>
                   <div className="absolute inset-0 bg-black/20"></div>
                   <div className="absolute top-6 left-6">
                     <span className="px-3 py-1 text-xs font-medium text-white bg-white/20 backdrop-blur-sm rounded-full">

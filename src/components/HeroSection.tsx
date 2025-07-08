@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import AnimatedKeyboard from './AnimatedKeyboard';
@@ -26,33 +25,33 @@ const HeroSection = () => {
       </div>
       
       <div className={`relative z-10 max-w-4xl text-center space-y-6 transition-all duration-700 transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <div className="flex justify-center">
+        {/* Badge animada */}
+        <div className="flex justify-center animate-fade-in-down">
           <span className="inline-flex items-center gap-2 px-3 py-1 text-xs font-medium rounded-full bg-muted text-primary">
             <span className="flex h-2 w-2 rounded-full bg-primary"></span>
-            Launching new payment features
+            Soluções digitais sob medida para sua ideia
             <Loader className="h-3 w-3 animate-spin text-primary" />
           </span>
         </div>
-        
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-medium tracking-tighter text-balance text-foreground">
-          Financial operations for <span className="text-primary">growth</span> businesses
+        {/* Título restaurado com cor original */}
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-balance text-foreground">
+          Transforme seu projeto digital em realidade
         </h1>
-        
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
-          Streamline your financial workflows with our comprehensive fintech platform. Built for modern businesses who value efficiency, compliance, and scalable growth.
+        {/* Parágrafo com fade-in */}
+        <p className={`text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-balance transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}> 
+          Somos especialistas em desenvolvimento de sites modernos, bots para Discord, automações e scripts exclusivos para FiveM. Da ideia ao suporte, entregamos inovação, performance e resultados reais para empresas, comunidades e criadores.
         </p>
-        
+        {/* Botões restaurados com cores originais */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6 items-center">
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground text-base h-12 px-8 transition-all duration-200 min-h-[48px]">
-            Start for free
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground text-base h-12 px-8 transition-all duration-200 min-h-[48px] animate-shine">
+            Solicitar Orçamento
           </Button>
-          <Button variant="outline" className="border-border text-foreground hover:bg-accent hover:text-accent-foreground text-base h-12 px-8 transition-all duration-200 min-h-[48px]">
-            Book a demo
+          <Button variant="outline" className="border-border text-foreground hover:bg-accent hover:text-accent-foreground text-base h-12 px-8 transition-all duration-200 min-h-[48px] animate-shine">
+            Falar com Especialista
           </Button>
         </div>
-        
         <div className="pt-6 text-sm text-muted-foreground">
-          No credit card required • Free 14-day trial
+          Atendimento ágil • Soluções personalizadas • Suporte contínuo
         </div>
       </div>
       

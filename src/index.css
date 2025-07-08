@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -199,4 +198,32 @@
   .column-highlight {
     @apply bg-accent/20 transition-all duration-300;
   }
+
+  /* Animação FAQ */
+  .faq-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .faq-open {
+    max-height: 200px;
+    opacity: 1;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInUpBounce {
+    0% { opacity: 0; transform: translateY(40px); }
+    80% { opacity: 1; transform: translateY(-6px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in-up {
+    animation: fadeInUpBounce 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
 }
