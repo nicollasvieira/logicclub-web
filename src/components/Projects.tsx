@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ExternalLink, Github, Calendar, Award, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Projects = () => {
@@ -108,12 +108,32 @@ const Projects = () => {
   const [current, setCurrent] = useState(0);
   const [animating, setAnimating] = useState(false);
   const [direction, setDirection] = useState<'left' | 'right' | null>(null);
+  const [mobilePage, setMobilePage] = useState(0);
+  const [mobilePages, setMobilePages] = useState(projects.length);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => setVisibleCount(getVisibleCount());
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Mobile: atualizar indicador de página conforme scroll
+  useEffect(() => {
+    if (visibleCount !== 1) return;
+    const container = scrollRef.current;
+    if (!container) return;
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft;
+      const cardWidth = container.firstChild ? (container.firstChild as HTMLElement).offsetWidth + 16 : 1; // 16 = gap-4
+      let page = Math.round(scrollLeft / cardWidth);
+      if (page > projects.length - 1) page = projects.length - 1;
+      setMobilePage(page);
+    };
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [visibleCount, projects.length]);
 
   const maxIndex = Math.max(0, projects.length - visibleCount);
   const goLeft = () => {
@@ -138,8 +158,11 @@ const Projects = () => {
   };
 
   // Indicador de página
-  const totalPages = maxIndex + 1;
-  const currentPage = Math.floor(current / visibleCount);
+  const totalPages = projects.length;
+  const currentPage = visibleCount === 1 ? mobilePage : current;
+
+  // Mobile: scroll-x, desktop: slider
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   return (
     <section id="projetos" className="w-full py-24 px-6 md:px-12 bg-background relative overflow-hidden">
@@ -161,9 +184,9 @@ const Projects = () => {
             Veja alguns dos projetos entregues para empresas, comunidades e servidores de jogos. Soluções sob medida, com tecnologia de ponta.
           </p>
         </div>
-        {/* Slider controlado */}
+        {/* Slider/Carrossel responsivo */}
         <div className="relative flex items-center justify-center min-h-[520px]">
-          {/* Setas premium */}
+          {/* Setas só no desktop/tablet */}
           <button
             className="hidden md:flex absolute left-[-56px] top-1/2 -translate-y-1/2 z-20 bg-card border border-border rounded-full p-3 shadow-lg hover:bg-primary/10 hover:scale-110 active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/30"
             onClick={goLeft}
@@ -174,15 +197,20 @@ const Projects = () => {
           >
             <ChevronLeft size={32} />
           </button>
-          <div className="flex gap-8 w-full justify-center items-stretch relative overflow-hidden">
-            <div className="flex w-full gap-8 justify-center items-stretch relative">
-              {projects.slice(current, current + visibleCount).map((project, index) => (
+          {/* Mobile: scroll-x, Desktop: slider */}
+          <div
+            ref={visibleCount === 1 ? scrollRef : undefined}
+            className={
+              'w-full flex justify-center items-stretch ' +
+              (visibleCount === 1 ? 'overflow-x-auto gap-4 snap-x snap-mandatory hide-scrollbar px-1 pr-8' : 'gap-8')
+            }
+          >
+            {visibleCount === 1 ? (
+              // Mobile: todos os cards em linha, scroll-x
+              projects.map((project, index) => (
                 <div
-                  key={index + current}
-                  className={`group w-full max-w-[370px] h-full flex-shrink-0 flex-grow-0 transition-all duration-500
-                    ${animating ? (direction === 'left' ? 'animate-slide-left' : 'animate-slide-right') : 'opacity-100'}
-                  `}
-                  style={{ pointerEvents: animating ? 'none' : undefined }}
+                  key={index}
+                  className="group w-[85vw] max-w-[350px] min-w-[260px] snap-center h-full flex-shrink-0 flex-grow-0 transition-all duration-500"
                 >
                   <div className="h-full rounded-2xl border border-border bg-card overflow-hidden hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 flex flex-col shadow-md">
                     <div className={`h-56 ${project.image} relative overflow-hidden group-hover:scale-105 transition-transform duration-500`}>
@@ -235,8 +263,72 @@ const Projects = () => {
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              ))
+            ) : (
+              // Desktop/tablet: slider controlado
+              <div className="flex w-full gap-8 justify-center items-stretch relative">
+                {projects.slice(current, current + visibleCount).map((project, index) => (
+                  <div
+                    key={index + current}
+                    className={`group w-full max-w-[370px] h-full flex-shrink-0 flex-grow-0 transition-all duration-500
+                      ${animating ? (direction === 'left' ? 'animate-slide-left' : 'animate-slide-right') : 'opacity-100'}
+                    `}
+                    style={{ pointerEvents: animating ? 'none' : undefined }}
+                  >
+                    <div className="h-full rounded-2xl border border-border bg-card overflow-hidden hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 flex flex-col shadow-md">
+                      <div className={`h-56 ${project.image} relative overflow-hidden group-hover:scale-105 transition-transform duration-500`}>
+                        <div className="absolute inset-0 bg-black/20"></div>
+                        <div className="absolute top-6 left-6">
+                          <span className="px-3 py-1 text-xs font-medium text-white bg-white/20 backdrop-blur-sm rounded-full">
+                            {project.category}
+                          </span>
+                        </div>
+                        <div className="absolute top-6 right-6 flex gap-3">
+                          <div className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
+                            <ExternalLink size={18} className="text-white" />
+                          </div>
+                          <div className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
+                            <Github size={18} className="text-white" />
+                          </div>
+                        </div>
+                        <div className="absolute bottom-6 left-6 flex items-center gap-2 text-white">
+                          <Calendar size={16} />
+                          <span className="text-sm font-medium">{project.year}</span>
+                        </div>
+                      </div>
+                      <div className="p-8 space-y-6 flex flex-col flex-1">
+                        <div className="space-y-3">
+                          <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
+                            {project.title}
+                          </h3>
+                          <p className="text-muted-foreground leading-relaxed">
+                            {project.description}
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-3 gap-4 py-6 border-t border-border">
+                          {Object.entries(project.stats).map(([key, value], i) => (
+                            <div key={i} className="text-center">
+                              <div className="text-2xl font-bold text-foreground mb-1">{value}</div>
+                              <div className="text-xs text-muted-foreground capitalize font-medium">{key}</div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="flex flex-wrap gap-2 mt-auto">
+                          {project.technologies.map((tech, i) => (
+                            <span
+                              key={i}
+                              className="px-3 py-1 text-xs font-medium bg-muted text-muted-foreground rounded-full hover:bg-primary/10 hover:text-primary transition-colors"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <button
             className="hidden md:flex absolute right-[-56px] top-1/2 -translate-y-1/2 z-20 bg-card border border-border rounded-full p-3 shadow-lg hover:bg-primary/10 hover:scale-110 active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/30"
@@ -254,7 +346,7 @@ const Projects = () => {
           {Array.from({ length: totalPages }).map((_, i) => (
             <span
               key={i}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${i === current ? 'bg-primary' : 'bg-border'}`}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${i === currentPage ? 'bg-primary' : 'bg-border'}`}
             />
           ))}
         </div>
@@ -262,7 +354,7 @@ const Projects = () => {
         <div className="flex justify-center mt-8">
           <a
             href="#" // Troque para o link real se houver
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-lg shadow hover:bg-primary/90 transition-all"
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-primary text-white font-semibold text-lg shadow hover:bg-primary/90 transition-all"
           >
             Ver mais projetos
             <ChevronRight size={22} />
@@ -281,6 +373,8 @@ const Projects = () => {
         }
         .animate-slide-left { animation: slide-left 0.35s cubic-bezier(.4,0,.2,1); }
         .animate-slide-right { animation: slide-right 0.35s cubic-bezier(.4,0,.2,1); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
     </section>
   );

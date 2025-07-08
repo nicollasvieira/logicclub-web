@@ -63,7 +63,7 @@ const Index = () => {
           <Reveal delay={400}><Projects /></Reveal>
         </div>
         <div id="depoimentos">
-          <Reveal delay={500}><Testimonials /></Reveal>
+          <Testimonials />
           <Reveal delay={600}><ContactForm /></Reveal>
         </div>
         {/* FAQ Section */}
